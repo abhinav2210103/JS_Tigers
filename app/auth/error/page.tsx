@@ -1,14 +1,15 @@
+// app/auth/error/page.tsx
 'use client';
 
-import { useSearchParams } from "next/navigation";
+import { Suspense } from 'react';
+import ErrorContent from './ErrorContent';
 
 export default function ErrorPage() {
-  const params = useSearchParams();
-  const error = params.get("error");
-
   return (
-    <div className="min-h-screen flex items-center justify-center text-red-600">
-      <p>Something went wrong: {error}</p>
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <ErrorContent />
+    </Suspense>
   );
 }
+
+ 
