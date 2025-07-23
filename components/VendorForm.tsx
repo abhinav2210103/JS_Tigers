@@ -26,10 +26,14 @@ export default function VendorForm({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+
+    setForm(prev => ({
+      ...prev,
+      [name]: value,
+    } as VendorType));
   };
 
-    const handleSubmit = async () => {
+  const handleSubmit = async () => {
     const method = vendor ? "PUT" : "POST";
     const url = vendor
       ? `/api/vendor/edit/${vendor._id}`
@@ -53,7 +57,7 @@ export default function VendorForm({
     }
   };
 
-  const fields = [
+  const fields: (keyof VendorType)[] = [
     "vendorName",
     "bankAccount",
     "bankName",
@@ -78,7 +82,7 @@ export default function VendorForm({
             <input
               id={field}
               name={field}
-              value={(form as any)[field]}
+              value={form[field] ?? ""}
               onChange={handleChange}
               className="border px-2 py-1"
               required

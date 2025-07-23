@@ -27,12 +27,12 @@ export async function GET(req: Request) {
       vendors: vendorsList,
       total: totalCount,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error while fetching vendors:", err);
 
     return NextResponse.json(
       {
-        message: err?.message || "Something went wrong while fetching vendors.",
+        message: (err as Error)?.message || "Something went wrong while fetching vendors.",
       },
       { status: 500 }
     );

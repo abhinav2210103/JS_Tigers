@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { VendorType } from "@/models/vendor.model";
 import VendorForm from "@/components/VendorForm";
 
@@ -13,20 +13,20 @@ export default function VendorsPage() {
   const [selectedVendor, setSelectedVendor] = useState<VendorType | null>(null);
   const [showForm, setShowForm] = useState(false);
 
-  useEffect(() => {
-    fetchVendorList();
-  }, [page]);
-
-  const fetchVendorList = async () => {
+  const fetchVendorList = useCallback(async () => {
     try {
       const res = await fetch(`/api/vendor/get?page=${page}&limit=${limit}`);
       const data = await res.json();
       setVendors(data.vendors || []);
       setTotal(data.total || 0);
-    } catch (err) {
+    } catch (err: unknown) {
       console.error("Failed to fetch vendors:", err);
     }
-  };
+  }, [page, limit]);
+
+  useEffect(() => {
+    fetchVendorList();
+  }, [fetchVendorList]);
 
   const handleDelete = async (id: string) => {
     const confirmDelete = window.confirm(
@@ -42,7 +42,7 @@ export default function VendorsPage() {
         const error = await res.json();
         alert(error.message || "Failed to delete vendor.");
       }
-    } catch (err) {
+    } catch (err: unknown) {
       console.error("Error deleting vendor:", err);
     }
   };
@@ -96,7 +96,9 @@ export default function VendorsPage() {
                   </button>
                   <button
                     className="px-2 py-1 border rounded text-red-600"
-                    onClick={() => handleDelete(vendor._id!)}
+                    onClick={() => {
+                      if (vendor._id) handleDelete(vendor._id);
+                    }}
                   >
                     Delete
                   </button>

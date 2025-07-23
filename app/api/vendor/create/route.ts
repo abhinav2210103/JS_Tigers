@@ -24,13 +24,15 @@ export async function POST(req: Request) {
       message: "Vendor created successfully.",
       vendor,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Failed to create vendor:", err);
 
     return NextResponse.json(
       {
         message:
-          err?.message || "Server ran into an issue while creating vendor.",
+          err instanceof Error
+            ? err.message
+            : "Server ran into an issue while creating vendor.",
       },
       { status: 500 }
     );
