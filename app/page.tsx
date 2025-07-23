@@ -32,7 +32,7 @@ export default function Home() {
             Welcome {session.user?.name}
           </p>
           <button
-            onClick={() => router.push("/main")}
+            onClick={() => router.push("/main/vendor")}
             className="cursor-pointer border-black p-2 border-2 rounded-2xl mt-6"
           >
             Go to Main Page
