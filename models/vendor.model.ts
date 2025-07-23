@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 
+//Vendor Type
 export interface VendorType {
   _id?: string;
   vendorName: string;
-  bankAccountNo: string;
+  bankAccount: string;
   bankName: string;
   addressLine: string;
   city: string;
@@ -11,10 +12,11 @@ export interface VendorType {
   pinCode: string;
 }
 
+
 const vendorSchema = new mongoose.Schema<VendorType>(
   {
     vendorName: { type: String, required: true },
-    bankAccountNo: { type: String, required: true },
+    bankAccount: { type: String, required: true },
     bankName: { type: String, required: true },
     addressLine: { type: String, required: true },
     city: { type: String, required: true },
